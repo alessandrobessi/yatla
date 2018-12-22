@@ -3,9 +3,9 @@
 #include <sqlite3.h>
 #include <string.h>
 
-void red()
+void marker()
 {
-    printf("\033[1;32m");
+    printf("\033[1;31m");
 }
 
 void reset()
@@ -13,25 +13,38 @@ void reset()
     printf("\033[0m");
 }
 
+void notick()
+{
+    printf("\xE2\x9D\x8C ");
+}
+
 void tick()
 {
-    printf("\xE2\x9C\x93 ");
+    printf("\xE2\x9C\x85 ");
+}
+
+void exclamation()
+{
+    printf("\xE2\x9D\x97 ");
 }
 
 int callback(void *NotUsed, int argc, char **argv, char **azColName)
 {
     NotUsed = 0;
 
-    if (strcmp(argv[2], "1") == 0)
+    if (strcmp(argv[3], "1") == 0)
     {
-        red();
-        tick();
+        exclamation();
+        marker();
     }
-    for (int i = 0; i < argc - 1; i++)
+    for (int i = 0; i < argc - 2; i++)
     {
         printf("%s\t", argv[i] ? argv[i] : "NULL");
     }
-
+    if (strcmp(argv[2], "1") == 0)
+    {
+        tick();
+    } 
     reset();
     printf("\n");
     return 0;
@@ -48,7 +61,7 @@ int main(int argc, char **argv)
     sqlite3 *db;
     int rc;
 
-    rc = sqlite3_open("todo.db", &db);
+    rc = sqlite3_open("/tmp/todo.db", &db);
     if (rc)
     {
         fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
@@ -73,7 +86,7 @@ int main(int argc, char **argv)
     if (strcmp("list", argv[1]) == 0)
     {
         char *err_msg = 0;
-        char *sql = "SELECT * FROM Todo ORDER BY Status DESC";
+        char *sql = "SELECT * FROM Todo ORDER BY Urgent DESC";
         rc = sqlite3_exec(db, sql, callback, 0, &err_msg);
         if (rc)
         {
@@ -125,21 +138,23 @@ int main(int argc, char **argv)
     if (strcmp("add", argv[1]) == 0)
     {
         char *err_msg = 0;
-        char *sql = "CREATE TABLE IF NOT EXISTS Todo(Id INTEGER PRIMARY KEY, Task TEXT, Status INT);";
+        char *sql = "CREATE TABLE IF NOT EXISTS Todo(Id INTEGER PRIMARY KEY, Task TEXT, Status INT, Urgent INT);";
         char add[100];
-        strcpy(add, "INSERT INTO Todo (Task, Status) VALUES ('");
+        strcpy(add, "INSERT INTO Todo (Task, Status, Urgent) VALUES ('");
         strcat(add, argv[2]);
-        strcat(add, "', 0);");
+        strcat(add, "', 0, ");
+        if (argc == 4)
+        {
+            strcat(add, strcmp(argv[3], "-u") == 0 ? "1" : "0");
+        }
+        else
+        {
+            strcat(add, "0");
+        }
+        strcat(add, ");");
 
         printf("%s\n", add);
         rc = sqlite3_exec(db, sql, 0, 0, &err_msg);
-        if (rc)
-        {
-            // fprintf(stderr, "SQL error: %s\n", err_msg);
-            // sqlite3_free(err_msg);
-            // sqlite3_close(db);
-            // exit(EXIT_FAILURE);
-        }
         rc = sqlite3_exec(db, add, 0, 0, &err_msg);
         if (rc)
         {
