@@ -1,3 +1,3 @@
 #include <sqlite3.h>
 
-void list(sqlite3 *db, char **argv);
+void ls(sqlite3 *db, int argc, char **argv);

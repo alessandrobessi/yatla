@@ -35,7 +35,7 @@ int main(int argc, char **argv)
 
     if (strcmp("ls", argv[1]) == 0)
     {
-        list(db, argv);
+        ls(db, argc, argv);
     }
 
     if (strcmp("rm", argv[1]) == 0)

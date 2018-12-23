@@ -17,14 +17,26 @@ int callback(void *NotUsed, int argc, char **argv, char **azColName)
     {
         placeholder();
     }
-    for (int i = 0; i < argc - 2; i++)
+    for (int i = 0; i < argc - 3; i++)
     {
         printf("%s\t", argv[i] ? argv[i] : "NULL");
     }
+
+    if (strcmp(argv[2], "Uncategorized") != 0)
+    {
+        printf("\t[%s]\t", argv[2]);
+    }
+    else
+    {
+        placeholder();
+    }
+
     if (strcmp(argv[3], "1") == 0)
     {
         tick();
-    } else {
+    }
+    else
+    {
         placeholder();
     }
     reset();
@@ -32,25 +44,36 @@ int callback(void *NotUsed, int argc, char **argv, char **azColName)
     return 0;
 }
 
-void print_header()
-{
-    bold();
-    printf("Flag\tId\tTask\t\t\tCategory\n");
-    reset();
-}
-
-void list(sqlite3 *db, char **argv)
+void ls(sqlite3 *db, int argc, char **argv)
 {
     int rc;
     char *err_msg = 0;
-    char *sql = "SELECT * FROM Todo ORDER BY Urgent DESC";
-    print_header();
-    rc = sqlite3_exec(db, sql, callback, 0, &err_msg);
-    if (rc)
+
+    if (argc > 2)
     {
-        fprintf(stderr, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
-        sqlite3_close(db);
-        exit(EXIT_FAILURE);
+        char cmd[255];
+        strcpy(cmd, "SELECT * FROM Todo WHERE Category='");
+        strcat(cmd, argv[2]);
+        strcat(cmd, "' ORDER BY Urgent DESC");
+        rc = sqlite3_exec(db, cmd, callback, 0, &err_msg);
+        if (rc)
+        {
+            fprintf(stderr, "SQL error: %s\n", err_msg);
+            sqlite3_free(err_msg);
+            sqlite3_close(db);
+            exit(EXIT_FAILURE);
+        }
+    }
+    else
+    {
+        char *cmd = "SELECT * FROM Todo ORDER BY Urgent DESC";
+        rc = sqlite3_exec(db, cmd, callback, 0, &err_msg);
+        if (rc)
+        {
+            fprintf(stderr, "SQL error: %s\n", err_msg);
+            sqlite3_free(err_msg);
+            sqlite3_close(db);
+            exit(EXIT_FAILURE);
+        }
     }
 }
