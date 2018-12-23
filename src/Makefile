@@ -1,2 +1,2 @@
 todo:
-	gcc todo.c style.c list.c clear.c rm.c add.c set.c -o todo -lsqlite3
+	gcc todo.c style.c ls.c clear.c rm.c add.c set.c -o todo -lsqlite3

@@ -17,7 +17,7 @@ void notick()
 
 void tick()
 {
-    printf("\xE2\x9C\x85 ");
+    printf("\t\xE2\x9C\x85 ");
 }
 
 void exclamation()

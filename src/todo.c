@@ -3,7 +3,7 @@
 #include <sqlite3.h>
 #include <string.h>
 #include "style.h"
-#include "list.h"
+#include "ls.h"
 #include "clear.h"
 #include "rm.h"
 #include "add.h"
@@ -33,7 +33,7 @@ int main(int argc, char **argv)
         clear(db);
     }
 
-    if (strcmp("list", argv[1]) == 0)
+    if (strcmp("ls", argv[1]) == 0)
     {
         list(db, argv);
     }
