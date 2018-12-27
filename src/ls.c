@@ -7,7 +7,22 @@
 int callback(void *NotUsed, int argc, char **argv, char **azColName)
 {
     NotUsed = 0;
-
+    if (strcmp(argv[3], "1") == 0)
+    {
+        tick();
+    }
+    else
+    {
+        placeholder();
+    }
+    if (strcmp(argv[5], "1") == 0)
+    {
+        star();
+    }
+    else
+    {
+        placeholder();
+    }
     if (strcmp(argv[4], "1") == 0)
     {
         exclamation();
@@ -31,14 +46,6 @@ int callback(void *NotUsed, int argc, char **argv, char **azColName)
         placeholder();
     }
 
-    if (strcmp(argv[3], "1") == 0)
-    {
-        tick();
-    }
-    if (strcmp(argv[5], "1") == 0)
-    {
-        star();
-    }
     reset();
     printf("\n");
     return 0;

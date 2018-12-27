@@ -20,7 +20,7 @@ void add(sqlite3 *db, int argc, char **argv)
         {
             if (strcmp(argv[i], "-u") == 0)
                 is_urgent = true;
-            if (strcmp(argv[i], "-t") == 0)
+            if (strcmp(argv[i], "-c") == 0)
             {
                 has_category = true;
                 category = argv[i + 1];

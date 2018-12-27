@@ -2,7 +2,7 @@
 
 void star()
 {
-    printf(" \xE2\xAD\x90 ");
+    printf("\xE2\xAD\x90 ");
 }
 
 void marker()
@@ -17,22 +17,22 @@ void reset()
 
 void notick()
 {
-    printf("\xE2\x9D\x8C ");
+    printf("\xE2\x9D\x8C");
 }
 
 void tick()
 {
-    printf("\t\xE2\x9C\x85 ");
+    printf("\xE2\x9C\x85 ");
 }
 
 void exclamation()
 {
-    printf("\xE2\x9D\x97\t");
+    printf("\xE2\x9D\x97 ");
 }
 
 void placeholder()
 {
-    printf(" \t");
+    printf(" - ");
 }
 
 void bold()
