@@ -88,4 +88,46 @@ void set(sqlite3 *db, int argc, char **argv)
             exit(EXIT_FAILURE);
         }
     }
+
+    if (strcmp("star", argv[3]) == 0)
+    {
+        int rc;
+        char *err_msg = 0;
+        char cmd[100];
+        strcpy(cmd, "UPDATE Todo SET Starred=1");
+        strcat(cmd, " WHERE Id=");
+        strcat(cmd, argv[2]);
+        strcat(cmd, ";");
+
+        printf("%s\n", cmd);
+        rc = sqlite3_exec(db, cmd, 0, 0, &err_msg);
+        if (rc)
+        {
+            fprintf(stderr, "SQL error: %s\n", err_msg);
+            sqlite3_free(err_msg);
+            sqlite3_close(db);
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    if (strcmp("unstar", argv[3]) == 0)
+    {
+        int rc;
+        char *err_msg = 0;
+        char cmd[100];
+        strcpy(cmd, "UPDATE Todo SET Starred=0");
+        strcat(cmd, " WHERE Id=");
+        strcat(cmd, argv[2]);
+        strcat(cmd, ";");
+
+        printf("%s\n", cmd);
+        rc = sqlite3_exec(db, cmd, 0, 0, &err_msg);
+        if (rc)
+        {
+            fprintf(stderr, "SQL error: %s\n", err_msg);
+            sqlite3_free(err_msg);
+            sqlite3_close(db);
+            exit(EXIT_FAILURE);
+        }
+    }
 }

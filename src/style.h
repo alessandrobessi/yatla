@@ -1,3 +1,4 @@
+void star();
 void marker();
 void reset();
 void notick();

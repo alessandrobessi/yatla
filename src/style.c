@@ -1,5 +1,10 @@
 #include <stdio.h>
 
+void star()
+{
+    printf(" \xE2\xAD\x90 ");
+}
+
 void marker()
 {
     printf("\033[1;31m");

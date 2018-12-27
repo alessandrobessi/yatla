@@ -17,7 +17,7 @@ int callback(void *NotUsed, int argc, char **argv, char **azColName)
     {
         placeholder();
     }
-    for (int i = 0; i < argc - 3; i++)
+    for (int i = 0; i < argc - 4; i++)
     {
         printf("%s\t", argv[i] ? argv[i] : "NULL");
     }
@@ -35,9 +35,9 @@ int callback(void *NotUsed, int argc, char **argv, char **azColName)
     {
         tick();
     }
-    else
+    if (strcmp(argv[5], "1") == 0)
     {
-        placeholder();
+        star();
     }
     reset();
     printf("\n");

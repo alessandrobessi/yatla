@@ -8,7 +8,7 @@ void add(sqlite3 *db, int argc, char **argv)
 {
     int rc;
     char *err_msg = 0;
-    char *sql = "CREATE TABLE IF NOT EXISTS Todo(Id INTEGER PRIMARY KEY, Task TEXT, Category TEXT, Status INT, Urgent INT);";
+    char *sql = "CREATE TABLE IF NOT EXISTS Todo(Id INTEGER PRIMARY KEY, Task TEXT, Category TEXT, Status INT, Urgent INT, Starred INT);";
     char add[256];
 
     bool is_urgent = false;
@@ -28,13 +28,13 @@ void add(sqlite3 *db, int argc, char **argv)
         }
     }
 
-    strcpy(add, "INSERT INTO Todo (Task, Category, Status, Urgent) VALUES ('");
+    strcpy(add, "INSERT INTO Todo (Task, Category, Status, Urgent, Starred) VALUES ('");
     strcat(add, argv[2]);
     strcat(add, "', '");
     strcat(add, has_category ? category : "Uncategorized");
     strcat(add, "', 0, ");
     strcat(add, is_urgent ? "1" : "0");
-    strcat(add, ");");
+    strcat(add, ", 0);");
 
     printf("%s\n", add);
     rc = sqlite3_exec(db, sql, 0, 0, &err_msg);
