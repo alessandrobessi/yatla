@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <sqlite3.h>
 #include <string.h>
+#include <pwd.h>
 #include "style.h"
 #include "ls.h"
 #include "clear.h"
@@ -20,7 +21,12 @@ int main(int argc, char **argv)
     sqlite3 *db;
     int rc;
 
-    rc = sqlite3_open("/tmp/todo.db", &db);
+    char dbpath[100];
+    char *homedir = getenv("HOME");
+    strcat(dbpath, homedir);
+    strcat(dbpath, "/todo.db");
+
+    rc = sqlite3_open(dbpath, &db);
     if (rc)
     {
         fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
