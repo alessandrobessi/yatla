@@ -32,14 +32,12 @@ int callback(void *NotUsed, int argc, char **argv, char **azColName)
     {
         placeholder();
     }
-    for (int i = 0; i < argc - 4; i++)
-    {
-        printf("%s\t", argv[i] ? argv[i] : "NULL");
-    }
+    printf("%5s\t", argv[0]);
+    printf("%50s\t", argv[1]);
 
     if (strcmp(argv[2], "Uncategorized") != 0)
     {
-        printf("\t[%s]\t", argv[2]);
+        printf("[%s]", argv[2]);
     }
     else
     {
